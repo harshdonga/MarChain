@@ -32,15 +32,26 @@ class P2pserver
     this.sockets.push(socket);
     console.log(`Socket Connected!`);
     this.messagehandler(socket);
-    socket.send(JSON.stringify(this.blockchain.chain))
+    this.sendchain(socket)
   }
 
   messagehandler(socket)
   {
     socket.on('message', message => {
       const data = JSON.parse(message);
-      console.log('data', data);
+
+      this.blockchain.replacechain(data);
     });
+  }
+
+  sendchain(socket)
+  {
+    socket.send(JSON.stringify(this.blockchain.chain));
+  }
+
+  syncChains()
+  {
+    this.sockets.forEach(socket => this.sendchain(socket));
   }
 }
 
