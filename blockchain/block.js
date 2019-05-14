@@ -33,6 +33,13 @@ class Block
     return new this(timestamp , lasthash , hash , data)
   }
 
+  static blockhash(block)
+  {
+    const {timestamp , lasthash , data} = block;
+    return Block.hash(timestamp , lasthash , data);
+  }
+
+
   static hash(timestamp , lasthash , data)
   {
     return SHA256(`${timestamp}${lasthash}${data}`).toString();
