@@ -1,6 +1,8 @@
 const TransactionPool = require('./transaction-pool');
 const Transaction = require('./transaction');
 const Wallet = require('./index');
+const BlockChain = require('../blockchain');
+
 
 describe('TransactionPool' , () => {
   let tp, wallet , transaction;
