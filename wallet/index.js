@@ -43,6 +43,51 @@ class Wallet
 
     return transaction;
   }
+
+  calculatebalance(blockchain)
+  {
+    let balance = this.balance;
+    let transactions = [];
+    blockchain.chain.forEach(block => block.data.forEach(transaction => {
+      transaction.push(transaction);
+    }));
+
+    const walletInputTs = transactions
+      .filter(transaction => transactions.input.address === this.publickey);
+
+    let startTime = 0;
+
+    if(walletInputTs.length > 0)
+    {
+      const recentInputs = walletInputTs.reduce(
+      (prev, current) => prev.input.timestamp > current.input.timestamp ? prev : current
+      );
+
+    balance = recentInputs.outputs.find(output => output.address === this.publickey).amount;
+    startTime = recentInputs.input.timestamp;
+    }
+
+    transactions.forEach(transaction => {
+      if(transactions.input.timestamp > startTime)
+      {
+        transaction.outputs.find(output => {
+          if(output.address === this.publickey)
+          {
+            balance += output.amount;
+          }
+        });
+      }
+    });
+
+    return balance;
+  }
+
+  static blockchainWallet()
+  {
+    const blockchainWallet = new this();
+    blockchainWallet.address = 'blockchain-wallet';
+    return blockchainWallet;
+  }
 }
 
 module.exports = Wallet;
