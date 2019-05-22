@@ -32,6 +32,26 @@ describe('Transactions' , () => {
     transaction.outputs[0].amount = 500000;
     expect(Transaction.verifytransaction(transaction)).toBe(false);
   });
+  
+  describe('Updating a transaction', () => {
+    let nextamount , nextrecipient;
 
+    beforeEach(() => {
+      nextamount = 20;
+      nextrecipient = 'n3xt-4ddr355';
+      transaction = transaction.update(wallet , nextrecipient , nextamount);
+    });
+
+    it(`subtracts the next amount from sender's output` , () =>{
+      expect(transaction.outputs.find(output => output.address === wallet.publickey).amount)
+      .toEqual(wallet.balance - amount - nextamount);
+    });
+
+    it(`outputs an amount for the next recipient` , () => {
+      expect(transaction.outputs.find(output => output.address === nextrecipient).amount)
+      .toEqual(nextamount);
+    });
+
+  });
 
 });
