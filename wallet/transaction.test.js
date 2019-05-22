@@ -20,4 +20,18 @@ describe('Transactions' , () => {
     .toEqual(amount);
   });
 
+  it('inputs the balance of the wallet', () => {
+    expect(transaction.input.amount).toEqual(wallet.balance);
+  });
+
+  it('validates the verified transaction', () => {
+    expect(Transaction.verifytransaction(transaction)).toBe(true);
+  });
+
+  it('invalidates the wrong transaction' , () => {
+    transaction.outputs[0].amount = 500000;
+    expect(Transaction.verifytransaction(transaction)).toBe(false);
+  });
+
+
 });

@@ -24,8 +24,29 @@ class Transaction
       {amount, address : recipient}
     ])
 
+    Transaction.signtransaction(transaction , senderWallet);
+
     return transaction;
   }
+
+  static signtransaction(transaction, senderWallet)
+   {
+     transaction.input = {
+       timestamp : Date.now(),
+       amount : senderWallet.balance,
+       address : senderWallet.publickey,
+       signature : senderWallet.sign(ChainUtil.hash(transaction.outputs))
+     }
+   }
+
+   static verifytransaction(transaction)
+   {
+     return ChainUtil.verifysignature(
+       transaction.input.address,
+       transaction.input.signature,
+       ChainUtil.hash(transaction.outputs)
+     );
+   }
 }
 
 module.exports = Transaction;
